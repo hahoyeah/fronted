@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>팬을 위한 공간</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Nanum Pen Script', cursive;
+        }
+        .mytitle {
+            width: 100%;
+            height: 250px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA1MDNfMTY5%2FMDAxNjUxNTg1MTA1OTU1.mXC2mblB-4mj_38wVHEdXoJpq3GZnMIQMJbRLGiN4mQg.h4s6otYsRHZTiqrQA4GuALG5bs1yl9uHytPJR_KlIo4g.JPEG.ksej02%2FIMG_4357.JPG&type=a340');
+            background-position: center;
+            background-size: cover;
+
+            color: white;
+
+            display: flex;
+            flex-direction: column;
+            /*row도 가능*/
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mypost {
+            max-width: 500px;
+            width: 95%;
+            margin: 20px auto 0px auto;
+            box-shadow: 0px 0px 3px 0px gray;
+            padding: 20px;
+        }
+
+        .bu {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .bu > button:hover {
+            border: 2px solid red;
+        }
+        .wrap {
+            max-width: 500px;
+            width: 95%;
+            margin: 20px auto 0px auto;
+        }
+
+        .mycomment {
+            color: gray;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "http://spartacodingclub.shop/sparta_api/weather/yongin",
+                data: {},
+                success: function (response) {
+                    let yongin = response['temp']
+                    $('#temp').text(yongin);
+                }
+            })
+        });
+
+        function q3() {
+            // 1. input-q3 값을 가져온다. let txt = ... q1, q2에서 했던 걸 참고!
+            let day = $('#floatingInput').val()
+            let txt = $('#floatingTextarea2').val()
+            // 2. 가져온 값을 이용해 names-q3에 붙일 태그를 만든다. (let temp_html = `<li>${txt}</li>`) 요렇게!
+            let temp_html = `<div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>${txt}</p>
+                                <footer class="blockquote-footer">${day}</footer>
+                                <button onclick="q_remove()">다지우기</button>
+                            </blockquote>
+                        </div>
+                    </div>`
+            // 3. 만들어둔 temp_html을 names-q3에 붙인다.(jQuery의 $('...').append(temp_html)을 이용하면 굿!) 빽틱
+            $('#names').append(temp_html)
+        }
+
+        function q_remove() {
+            // 1. names의 내부 태그를 모두 비운다.(jQuery의 $('....').empty()를 이용하면 굿!)
+            $('#names').empty()
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1>아스트로 팬이야기🐰</h1>
+        <p1>현재기온 : <span id='temp'>00.0</span>도</p1>
+    </div>
+        <div class="mypost">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">날짜</label>
+            </div>
+            <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                      style="height: 100px"></textarea>
+                <label for="floatingTextarea2">글작성</label>
+            </div>
+            <div class="bu">
+                <button type="button" class="btn btn-dark" onclick="q3()">기록하기</button>
+            </div>
+        </div>
+    <div class="wrap">
+            <div class="row row-cols-1 row-cols-md-1 g-4">
+                <div id="names">
+                    <div class="card">
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <p>아스트로 이번 노래 너무 좋아요!</p>
+                                <footer class="blockquote-footer">2022.08.19</footer>
+                                <button onclick="q_remove()">다지우기</button>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+
+</html>
